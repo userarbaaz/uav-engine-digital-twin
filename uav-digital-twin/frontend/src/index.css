@@ -1,0 +1,94 @@
+:root {
+  --bg-page: #05070a;
+  --bg-panel: #0c1117;
+  --bg-panel-raised: #121a24;
+  --bg-inset: #080b10;
+
+  --border: #1c2732;
+  --border-bright: #2c3d4d;
+
+  --text-primary: #e7edf3;
+  --text-secondary: #8b98a8;
+  --text-tertiary: #566072;
+
+  --data-cyan: #5fd0e8;
+  --data-cyan-dim: #2c5560;
+
+  --status-normal: #3ed88b;
+  --status-normal-dim: #1a4f39;
+  --status-warning: #f0a83c;
+  --status-warning-dim: #5a4319;
+  --status-critical: #f14e4e;
+  --status-critical-dim: #5a1f1f;
+
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: var(--data-cyan-dim);
+  color: var(--text-primary);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-bright);
+}
+
+button {
+  font-family: var(--font-sans);
+}
+
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--data-cyan);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+}
+
+.panel-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}

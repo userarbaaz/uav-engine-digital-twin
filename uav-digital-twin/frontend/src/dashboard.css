@@ -1,0 +1,1582 @@
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Mission status banner (Go/No-Go) ---------- */
+.mission-status-banner {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 28px;
+  border-bottom: 3px solid;
+  text-align: center;
+}
+
+.mission-status-label {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.mission-status-detail {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.mission-status-unknown {
+  background: var(--bg-panel-raised);
+  border-bottom-color: var(--border-bright);
+  color: var(--text-tertiary);
+}
+
+.mission-status-go {
+  background: var(--status-normal-dim);
+  border-bottom-color: var(--status-normal);
+  color: var(--status-normal);
+}
+
+.mission-status-caution {
+  background: var(--status-warning-dim);
+  border-bottom-color: var(--status-warning);
+  color: var(--status-warning);
+  animation: mission-status-flash 2s ease-in-out infinite;
+}
+
+.mission-status-no-go {
+  background: var(--status-critical-dim);
+  border-bottom-color: var(--status-critical);
+  color: var(--status-critical);
+  animation: mission-status-flash 1s ease-in-out infinite;
+}
+
+@keyframes mission-status-flash {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-status-caution,
+  .mission-status-no-go {
+    animation: none;
+  }
+}
+
+/* ---------- Header ---------- */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-panel) 0%, var(--bg-page) 100%);
+}
+
+.dashboard-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dashboard-title-main {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+}
+
+.dashboard-title-sub {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.dashboard-header-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.mission-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.mission-clock-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--data-cyan);
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+}
+
+.connection-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.connection-dot-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ---------- Body layout ---------- */
+.dashboard-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 16px;
+  padding: 20px 28px 28px;
+  transition: opacity 0.3s ease;
+  align-items: start;
+}
+
+.dashboard-body-stale {
+  opacity: 0.55;
+}
+
+.main-content-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.gauge-section {
+  padding: 18px;
+}
+
+.side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title {
+  display: block;
+  margin-bottom: 14px;
+}
+
+/* ---------- Gauges ---------- */
+.gauge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px 12px;
+}
+
+.gauge-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: -44px;
+}
+
+.gauge-value {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.gauge-unit {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.gauge-label {
+  margin-top: 10px;
+}
+
+/* ---------- Diagnosis panel ---------- */
+.diagnosis-panel {
+  padding: 16px 18px;
+  border-width: 1px;
+  border-left-width: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.4s ease;
+}
+
+.diagnosis-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.diagnosis-badge {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border: 1px solid currentColor;
+}
+
+.diagnosis-label {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.diagnosis-message {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.rul-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid;
+}
+
+.rul-value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.diagnosis-footer {
+  display: flex;
+  gap: 24px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.diagnosis-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.diagnosis-ground-truth {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.diagnosis-ground-truth-empty {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.ground-truth-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ground-truth-chip {
+  /* Reuses .active-fault-chip styling; no remove button in this context */
+  border-color: var(--status-critical);
+  background: var(--status-critical-dim);
+  color: var(--status-critical);
+}
+
+/* Feature 8: Single-fault limitation note */
+.diagnosis-limitation-note {
+  margin: 6px 0 0;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  opacity: 0.75;
+  letter-spacing: 0.04em;
+  cursor: help;
+}
+.diagnosis-limitation-note:hover {
+  opacity: 1;
+  color: var(--data-cyan);
+}
+
+/* ---------- Health row ---------- */
+.health-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+}
+
+.health-row-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.health-row-copy {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ---------- Fault controls ---------- */
+.fault-controls {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fault-hint {
+  margin: -6px 0 0;
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+.fault-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.active-fault-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.active-fault-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px 4px 10px;
+  font-size: 11px;
+  border-radius: 999px;
+  border: 1px solid var(--status-warning);
+  background: var(--status-warning-dim);
+  color: var(--status-warning);
+}
+
+.chip-severity {
+  opacity: 0.8;
+}
+
+.chip-remove {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.chip-remove:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.fault-btn {
+  background: var(--bg-panel-raised);
+  border: 1px solid var(--border-bright);
+  color: var(--text-primary);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 10px 8px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.fault-btn:hover:not(:disabled) {
+  border-color: var(--data-cyan);
+}
+
+.fault-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.fault-btn-active {
+  border-color: var(--status-warning);
+  background: var(--status-warning-dim);
+  color: var(--status-warning);
+}
+
+.fault-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.fault-btn-clear {
+  border-color: var(--status-normal);
+  color: var(--status-normal);
+}
+
+.fault-btn-reset {
+  border-color: var(--border-bright);
+  color: var(--text-secondary);
+}
+
+.fault-error {
+  font-size: 11.5px;
+  color: var(--status-critical);
+}
+
+/* ---------- Trend chart ---------- */
+.trend-chart {
+  padding: 16px 16px 10px;
+}
+
+.trend-chart-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.chart-tooltip {
+  background: var(--bg-inset);
+  border: 1px solid var(--border-bright);
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.chart-tooltip-time {
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.trend-legend {
+  display: flex;
+  gap: 18px;
+  font-size: 11px;
+  padding: 4px 2px 0;
+}
+
+/* ---------- Rotax 912 Engine Visual ---------- */
+.engine-visual-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-panel);
+}
+
+.engine-visual-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel-raised);
+}
+
+.engine-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.engine-subtitle {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.05em;
+}
+
+.engine-live-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.engine-fault-banner-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.engine-fault-banner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--status-critical-dim);
+  border: 1px solid var(--status-critical);
+  color: var(--status-critical);
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* Non-critical fault types read as amber rather than red */
+.fault-banner-misfire,
+.fault-banner-low_fuel_pressure {
+  background: var(--status-warning-dim);
+  border-color: var(--status-warning);
+  color: var(--status-warning);
+}
+
+.fault-banner-misfire .fault-pulse-dot,
+.fault-banner-low_fuel_pressure .fault-pulse-dot {
+  background: var(--status-warning);
+}
+
+.fault-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--status-critical);
+  animation: pulse 1s infinite;
+}
+
+.engine-mode-tag {
+  font-size: 11px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-inset);
+}
+
+.engine-viewport {
+  position: relative;
+  width: 100%;
+  height: 310px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #0d1522 0%, #05080e 100%);
+  padding: 8px 16px;
+  overflow: hidden;
+}
+
+.engine-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.7));
+}
+
+/* Overheat fault: soft red inset glow that pulses faster/brighter as
+   severity (--overheat-intensity, 0-1) climbs toward critical. */
+.engine-viewport-overheat {
+  animation-name: overheat-pulse;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes overheat-pulse {
+  0%, 100% {
+    box-shadow: inset 0 0 40px rgba(241, 78, 78, calc(0.12 * var(--overheat-intensity, 1)));
+  }
+  50% {
+    box-shadow: inset 0 0 110px rgba(241, 78, 78, calc(0.6 * var(--overheat-intensity, 1)));
+  }
+}
+
+.svg-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  user-select: none;
+}
+
+/* ---------- 2D Engine Diagram Fault Highlight (Feature 2) ---------- */
+@keyframes zone-fault-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(241, 78, 78, 0.7));
+    opacity: 0.92;
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(241, 78, 78, 1)) drop-shadow(0 0 24px rgba(255, 60, 60, 0.85));
+    opacity: 1;
+  }
+}
+
+.zone-fault-pulsing {
+  animation: zone-fault-glow 1.2s ease-in-out infinite !important;
+}
+
+.zone-fault-pulsing rect,
+.zone-fault-pulsing path,
+.zone-fault-pulsing circle,
+.zone-fault-pulsing line {
+  stroke: #f14e4e !important;
+  stroke-width: 2.5px !important;
+}
+
+.zone-fault-pulsing text,
+.zone-fault-pulsing .svg-label {
+  fill: #ff4d4d !important;
+  font-weight: 700 !important;
+  filter: drop-shadow(0 0 6px rgba(241, 78, 78, 0.9));
+}
+
+.cylinder-group {
+  transition: opacity 0.15s ease;
+}
+.cylinder-group:hover {
+  opacity: 0.85;
+}
+
+.engine-visual-footer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 10px 18px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+
+.engine-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.engine-stat-label {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.05em;
+}
+
+.engine-stat-val {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* ---------- Cockpit Controls ---------- */
+.cockpit-controls {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cockpit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cockpit-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cockpit-sub {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.engine-master-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid;
+}
+
+.engine-master-btn.master-running {
+  background: rgba(241, 78, 78, 0.12);
+  border-color: var(--status-critical);
+  color: var(--status-critical);
+}
+.engine-master-btn.master-running:hover {
+  background: rgba(241, 78, 78, 0.25);
+  box-shadow: 0 0 14px rgba(241, 78, 78, 0.4);
+}
+
+.engine-master-btn.master-stopped {
+  background: rgba(62, 216, 139, 0.12);
+  border-color: var(--status-normal);
+  color: var(--status-normal);
+}
+.engine-master-btn.master-stopped:hover {
+  background: rgba(62, 216, 139, 0.25);
+  box-shadow: 0 0 14px rgba(62, 216, 139, 0.4);
+}
+
+.master-indicator-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.cockpit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.control-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+}
+
+.control-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.control-val-readout {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--data-cyan);
+}
+
+.control-sub-val {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-weight: normal;
+}
+
+.slider-wrapper {
+  padding: 4px 0;
+}
+
+.aero-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #1a2634;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.aero-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--data-cyan);
+  border: 2px solid #05070a;
+  box-shadow: 0 0 10px var(--data-cyan);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.aero-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.aero-slider:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.preset-btn-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.preset-btn {
+  flex: 1;
+  min-width: 50px;
+  font-size: 10.5px;
+  padding: 5px 6px;
+  background: var(--bg-panel-raised);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.preset-btn:hover:not(:disabled) {
+  border-color: var(--data-cyan);
+  color: var(--text-primary);
+}
+
+.preset-btn.preset-active {
+  background: var(--data-cyan-dim);
+  border-color: var(--data-cyan);
+  color: var(--data-cyan);
+  font-weight: 600;
+}
+
+/* ---------- Live Telemetry Grid (Matching Reference Image) ---------- */
+.live-telemetry-container {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #080c14;
+  border: 1px solid #162231;
+}
+
+.telemetry-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.telemetry-sub-badge {
+  font-size: 11px;
+  color: #5d7186;
+  letter-spacing: 0.1em;
+}
+
+.telemetry-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: 0.01em;
+}
+
+/* 9 Metric Cards Row */
+.metric-cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+  gap: 8px;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 12px;
+  background: #090e18;
+  border: 1px solid #1a2736;
+  gap: 4px;
+}
+
+.metric-label {
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.metric-val {
+  font-size: 17px;
+  font-weight: 600;
+  color: #f8fafc;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.metric-unit {
+  font-size: 11px;
+  font-weight: normal;
+  color: #94a3b8;
+}
+
+/* 2x3 Graphs Grid */
+.graphs-2x3-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.telemetry-graph-card {
+  display: flex;
+  flex-direction: column;
+  background: #090e18;
+  border: 1px solid #162231;
+  padding: 12px 14px 10px;
+  gap: 8px;
+}
+
+.graph-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.graph-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b9bb0;
+  letter-spacing: 0.08em;
+}
+
+.graph-current-val {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.graph-svg-wrapper {
+  width: 100%;
+  height: 110px;
+  position: relative;
+}
+
+.graph-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1120px) {
+  .dashboard-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .cockpit-grid {
+    grid-template-columns: 1fr;
+  }
+  .graphs-2x3-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .engine-visual-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .engine-live-badges {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .engine-viewport {
+    height: 230px;
+  }
+  .engine-visual-footer {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .dashboard-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .fault-grid {
+    grid-template-columns: 1fr;
+  }
+  .metric-cards-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- Confidence breakdown panel ---------- */
+.confidence-breakdown {
+  padding: 0;
+  overflow: hidden;
+}
+
+.confidence-breakdown-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-tertiary);
+}
+
+.confidence-breakdown-toggle:hover {
+  background: var(--bg-panel-raised);
+}
+
+.confidence-breakdown-chevron {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.confidence-breakdown-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 16px 14px;
+  border-top: 1px solid var(--border);
+}
+
+.confidence-breakdown-empty {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.confidence-bar-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.confidence-bar-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.confidence-bar-track {
+  height: 8px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.confidence-bar-fill {
+  height: 100%;
+  background: var(--data-cyan);
+  transition: width 0.4s ease;
+}
+
+.confidence-bar-value {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+@media (max-width: 560px) {
+  .confidence-bar-row {
+    grid-template-columns: 96px 1fr 40px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════
+   Feature 3 — Toast Notifications
+   ════════════════════════════════════════════════════════ */
+.toast-stack {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  pointer-events: none;
+}
+
+@keyframes toast-in {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0);   opacity: 1; }
+}
+
+.toast {
+  pointer-events: all;
+  border-radius: 6px;
+  border: 1px solid;
+  padding: 12px 14px;
+  background: var(--bg-panel-raised);
+  animation: toast-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+}
+
+.toast-warning  { border-color: var(--status-warning); }
+.toast-critical {
+  border-color: var(--status-critical);
+  box-shadow: 0 8px 32px rgba(241,78,78,0.25);
+}
+.toast-normal   { border-color: var(--status-normal); }
+
+.toast-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.toast-icon {
+  font-size: 14px;
+}
+
+.toast-label {
+  flex: 1;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.toast-time {
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+.toast-dismiss {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color 0.15s;
+}
+.toast-dismiss:hover { color: var(--text-primary); }
+
+.toast-message {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* ════════════════════════════════════════════════════════
+   Feature 3 — Alert Log Panel
+   ════════════════════════════════════════════════════════ */
+.alert-log-panel {
+  border-radius: 6px;
+}
+
+.alert-log-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 12px 14px;
+  cursor: pointer;
+  color: inherit;
+  gap: 8px;
+}
+
+.alert-log-toggle-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-log-count {
+  font-size: 10px;
+  background: var(--status-warning-dim);
+  color: var(--status-warning);
+  border: 1px solid var(--status-warning);
+  border-radius: 10px;
+  padding: 1px 7px;
+}
+
+.alert-log-body {
+  padding: 0 14px 12px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.alert-log-empty {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.alert-log-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.alert-log-entry {
+  display: grid;
+  grid-template-columns: 58px 18px 1fr;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 11px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: var(--bg-inset);
+}
+
+.alert-log-entry-warning { border-left: 3px solid var(--status-warning); }
+.alert-log-entry-critical { border-left: 3px solid var(--status-critical); }
+.alert-log-entry-normal  { border-left: 3px solid var(--status-normal); }
+
+.alert-log-ts {
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+.alert-log-text {
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.alert-log-text strong {
+  color: var(--text-primary);
+}
+
+/* ════════════════════════════════════════════════════════
+   Feature 4 — RUL Countdown
+   ════════════════════════════════════════════════════════ */
+@keyframes rul-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.rul-countdown {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: rul-pulse 2s ease-in-out infinite;
+}
+
+.rul-countdown-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.rul-countdown-icon {
+  font-size: 14px;
+}
+
+.rul-countdown-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+.rul-countdown-sub {
+  margin: 0;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+/* Compact header chip variant */
+@keyframes rul-chip-flash {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+.rul-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: background 0.4s, border-color 0.4s;
+}
+
+/* Only pulse on warning/critical — stay static when engine is healthy */
+.rul-chip-warning,
+.rul-chip-critical {
+  animation: rul-chip-flash 1.5s ease-in-out infinite;
+}
+
+.rul-chip-normal {
+  /* Subtle very slow breathe — indicates live data without being distracting */
+  animation: rul-chip-flash 6s ease-in-out infinite;
+}
+
+.rul-chip-critical {
+  box-shadow: 0 0 12px rgba(241, 78, 78, 0.35);
+}
+
+.rul-chip-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.rul-chip-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.rul-chip-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.rul-chip-value {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+}
+
+/* Tilde superscript to mark estimate vs. ML RUL */
+.rul-chip-tilde {
+  font-size: 11px;
+  opacity: 0.7;
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+/* ════════════════════════════════════════════════════════
+   Feature 6 — End Mission Button
+   ════════════════════════════════════════════════════════ */
+.end-mission-btn {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.end-mission-btn:hover {
+  border-color: var(--status-warning);
+  color: var(--status-warning);
+  background: var(--status-warning-dim);
+}
+
+/* ════════════════════════════════════════════════════════
+   Feature 6 — Mission Summary Modal
+   ════════════════════════════════════════════════════════ */
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(-24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.modal-card {
+  background: var(--bg-panel-raised);
+  border: 1px solid var(--border-bright);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+  animation: modal-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+}
+
+.modal-subtitle {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.modal-close-btn:hover { color: var(--text-primary); }
+
+/* KPI row */
+.summary-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.summary-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  background: var(--bg-panel-raised);
+}
+
+.summary-kpi-val {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Sections */
+.summary-section {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-section-title {
+  display: block;
+}
+
+/* Severity bars */
+.summary-sev-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summary-sev-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
+  align-items: center;
+  gap: 10px;
+}
+
+.summary-sev-label {
+  font-size: 11px;
+  text-align: right;
+}
+
+.summary-sev-track {
+  height: 8px;
+  background: var(--bg-inset);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.summary-sev-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.summary-sev-time {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* Fault list */
+.summary-fault-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-fault-entry {
+  display: grid;
+  grid-template-columns: 64px 72px 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  padding: 7px 10px;
+  background: var(--bg-inset);
+  border-radius: 4px;
+}
+
+.summary-fault-ts {
+  color: var(--text-tertiary);
+  font-size: 10px;
+}
+
+.summary-fault-sev {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.summary-fault-label {
+  color: var(--text-secondary);
+}
+
+.summary-empty {
+  font-size: 12px;
+  color: var(--status-normal);
+  margin: 0;
+}
+
+/* Footer */
+.modal-footer {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.summary-close-btn {
+  background: var(--data-cyan-dim);
+  border: 1px solid var(--data-cyan);
+  color: var(--data-cyan);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  padding: 9px 22px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.summary-close-btn:hover {
+  background: var(--data-cyan);
+  color: var(--bg-page);
+}
